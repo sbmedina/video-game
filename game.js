@@ -8,6 +8,10 @@
         gameover = true;
         dir = 0;
         score = 0;
+        lastUpdate = 0,
+        FPS = 0,
+        frames = 0,
+        acumDelta = 0;
         body = [];
         food = null;
         iBody = new Image ();
@@ -128,7 +132,10 @@
         //ctx.fillText('Last Press: ' + lastPress, 0, 20);
         
         // Draw score
-        ctx.fillText('Score: ' + score, 0, 10);
+        ctx.fillText('Score: ' + score, 5, 10);
+
+        // Draw FPS
+        ctx.fillText('FPS: ' + FPS, 5, 25);
         
         // Draw pause
         if (pause) {
@@ -245,8 +252,25 @@
     }
 
     function run() {
-        setTimeout(run, 50);
+        window.requestAnimationFrame(run);
+    
+        var now = Date.now(),
+            deltaTime = (now - lastUpdate) / 1000;
+        if (deltaTime > 1) {
+            deltaTime = 0;
+        }
+        lastUpdate = now;
+    
+        frames += 1;
+        acumDelta += deltaTime;
+        if (acumDelta > 1) {
+            FPS = frames;
+            frames = 0;
+            acumDelta -= 1;
+        }
+    
         act();
+        paint(ctx);
     }
 
     function init() {
