@@ -4,6 +4,8 @@
     var canvas = null;
         ctx = null;
         lastPress = null;
+        buffer = null,
+        bufferCtx = null;
         pause = true;
         gameover = true;
         dir = 0;
@@ -116,7 +118,7 @@
         
         // Clean canvas
         ctx.fillStyle = 'midnightblue';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillRect(0, 0, buffer.width, buffer.height);
         
         // Draw player
         //ctx.fillStyle = '#0f0';
@@ -257,8 +259,16 @@
 
     function repaint() {
         window.requestAnimationFrame(repaint);
-        paint(ctx);
-    }
+        ctx.imageSmoothingEnabled = false;
+        ctx.webkitImageSmoothingEnabled = false;
+        ctx.mozImageSmoothingEnabled = false;
+        ctx.msImageSmoothingEnabled = false;
+        ctx.oImageSmoothingEnabled = false;
+        paint(bufferCtx);
+        ctx.fillStyle = '#000';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(buffer, 0, 0, canvas.width, canvas.height);
+}
 
     function run() {
         setTimeout(run, 50);
@@ -298,6 +308,12 @@
             aDie.src = 'assets/dies.m4a';
         }
 
+        // Load buffer
+        buffer = document.createElement('canvas');
+        bufferCtx = buffer.getContext('2d');
+        buffer.width = 300;
+        buffer.height = 150;
+        
         // Create player and food
         //body[0] = new Rectangle(40, 40, 10, 10);
         food = new Rectangle(80, 80, 10, 10);
