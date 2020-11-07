@@ -15,11 +15,14 @@
         frames = 0,
         acumDelta = 0;
         body = [];
+        highscores = [],
+        posHighscore = 10;
         food = null;
         iBody = new Image ();
         iFood = new Image();
         aEat = new Audio();
         aDie = new Audio();
+        localStorage.level = level;
         // wall = [];
         KEY_ENTER = 13;
         KEY_LEFT = 37;
