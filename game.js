@@ -22,10 +22,13 @@
         highscores = [],
         posHighscore = 10;
         food = null;
+        extraScoreElement = new Rectangle(80, 80, 10, 10);
         iBody = new Image ();
         iFood = new Image();
+        iBanana = new Image ();
         aEat = new Audio();
         aDie = new Audio();
+        aExtraScore = new Audio();
         // localStorage.level = level;
         // wall = [];
         KEY_ENTER = 13;
@@ -151,7 +154,7 @@
         paint(bufferCtx);
         ctx.fillStyle = '#000';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.drawImage(buffer, 0, 0, canvas.width, canvas.height);
+        ctx.drawImage(buffer, 0, 0, canvas.width, canvas.height);        
     }
 
     function run() {
@@ -169,6 +172,8 @@
         // Load assets
         iBody.src = 'assets/body.png';
         iFood.src = 'assets/fruit.png';
+        iBanana.src = 'assets/banana.png';
+        aExtraScore.src = 'assets/extrascore.mp3'
         if (canPlayOgg()) {
             aEat.src = 'assets/chomp.oga';
             aDie.src = 'assets/dies.oga';
@@ -269,6 +274,10 @@
         //food.fill(ctx);
         food.drawImage(ctx, iFood);
 
+        // Draw extra score element
+        ctx.fillStyle = 'yellow';
+        extraScoreElement.fill(ctx);
+        //extraScoreElement.drawImage(ctx, iBanana);
         // Draw score
         ctx.fillStyle = '#fff';
         ctx.textAlign = 'left';
@@ -355,6 +364,18 @@
                 food.y = random(canvas.height / 10 - 1) * 10;
                 aEat.play();
             }
+            function extraScore (){
+                extraScoreElement = new Rectangle(80, 80, 10, 10)
+                extraScoreElement.x = random(canvas.width / 10 - 1) * 10;
+                extraScoreElement.y = random(canvas.height / 10 - 1) * 10;
+            }
+            // Extra score element Intersects
+            if (body[0].intersects(extraScoreElement)) {
+                score += 2;
+                setTimeout(extraScore, 7000);
+                extraScoreElement = new Rectangle(0, 0, 00, 00);
+                aExtraScore.play();                            
+            }
 
             // Wall Intersects
             //for (i = 0, l = wall.length; i < l; i += 1) {
@@ -420,6 +441,15 @@
             lastPress = null;
         }
     };
+
+    function postScore(){
+        fetch(`www.jsonplaceholder.com?score=${score}`, {method: 'POST'})
+        .then(response => response.jason())
+        .then(json => console.log(`Score sent successfully: ${json}`))
+        .catch(error => console.log (`Error trying to send the score: ${error}`))
+    }
+    postScore();
+    
     window.addEventListener('resize', resize, false);
     window.addEventListener('load', init, false);
 }(window));
