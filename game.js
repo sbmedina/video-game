@@ -374,7 +374,8 @@
                 score += 2;
                 setTimeout(extraScore, 7000);
                 extraScoreElement = new Rectangle(0, 0, 00, 00);
-                aExtraScore.play();                            
+                aExtraScore.play(); 
+                postScore();                           
             }
 
             // Wall Intersects
@@ -448,7 +449,7 @@
         .then(json => console.log(`Score sent successfully: ${json}`))
         .catch(error => console.log (`Error trying to send the score: ${error}`))
     }
-    postScore();
+    
     
     window.addEventListener('resize', resize, false);
     window.addEventListener('load', init, false);
