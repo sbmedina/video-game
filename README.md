@@ -1,1 +1,6 @@
 GitHub Pages: https://sbmedina.github.io/video-game/
+
+The exercise of week 06 consists of extending the game developed in the Canvas Ninja tutorial exposed in the asynchronous materials.
+We recommend following the tutorial step by step, creating a new repository and uploading changes in short and constant commits, adding a Readme and Github Pages to test progress online. After having followed the tutorial up to point “01.14. Snake Local storage and high scores ”should add a new element to the game, which adds extra points. It is the equivalent of the fruits in the classic Snake game, which appear in a random position on the screen at random times during the game, and when touched they add points but do not extend the length of the Snake.
+Furthermore, every time the player captures a "fruit", an asynchronous call must be made by HTTP GET method, sending the current score of the player in the query Params of the URL. It does not matter which URL the data is sent to, they only need to worry about sending the data and capturing the response, displaying the message “Score sent correctly” on the console if it was sent correctly, or the message “Error trying to send the score ”in case the submission fails.
+Upload all the changes to Github and answer the problem with the URL of the Github Pages page with the game running.
